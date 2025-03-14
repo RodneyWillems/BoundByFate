@@ -64,6 +64,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""SecondAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""de635800-75c8-4552-a631-274a20abb5fe"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ChangeCommand"",
                     ""type"": ""Button"",
                     ""id"": ""8dcb90c6-9940-4ae8-8cb1-49b97f214a1f"",
@@ -172,6 +181,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeCommand"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f487790-f95e-4580-ac96-6124d1ad0602"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""SecondAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +216,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Overworld_Swap = m_Overworld.FindAction("Swap", throwIfNotFound: true);
         m_Overworld_Inventory = m_Overworld.FindAction("Inventory", throwIfNotFound: true);
         m_Overworld_FirstAction = m_Overworld.FindAction("FirstAction", throwIfNotFound: true);
+        m_Overworld_SecondAction = m_Overworld.FindAction("SecondAction", throwIfNotFound: true);
         m_Overworld_ChangeCommand = m_Overworld.FindAction("ChangeCommand", throwIfNotFound: true);
     }
 
@@ -267,6 +288,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Overworld_Swap;
     private readonly InputAction m_Overworld_Inventory;
     private readonly InputAction m_Overworld_FirstAction;
+    private readonly InputAction m_Overworld_SecondAction;
     private readonly InputAction m_Overworld_ChangeCommand;
     public struct OverworldActions
     {
@@ -276,6 +298,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Swap => m_Wrapper.m_Overworld_Swap;
         public InputAction @Inventory => m_Wrapper.m_Overworld_Inventory;
         public InputAction @FirstAction => m_Wrapper.m_Overworld_FirstAction;
+        public InputAction @SecondAction => m_Wrapper.m_Overworld_SecondAction;
         public InputAction @ChangeCommand => m_Wrapper.m_Overworld_ChangeCommand;
         public InputActionMap Get() { return m_Wrapper.m_Overworld; }
         public void Enable() { Get().Enable(); }
@@ -298,6 +321,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @FirstAction.started += instance.OnFirstAction;
             @FirstAction.performed += instance.OnFirstAction;
             @FirstAction.canceled += instance.OnFirstAction;
+            @SecondAction.started += instance.OnSecondAction;
+            @SecondAction.performed += instance.OnSecondAction;
+            @SecondAction.canceled += instance.OnSecondAction;
             @ChangeCommand.started += instance.OnChangeCommand;
             @ChangeCommand.performed += instance.OnChangeCommand;
             @ChangeCommand.canceled += instance.OnChangeCommand;
@@ -317,6 +343,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @FirstAction.started -= instance.OnFirstAction;
             @FirstAction.performed -= instance.OnFirstAction;
             @FirstAction.canceled -= instance.OnFirstAction;
+            @SecondAction.started -= instance.OnSecondAction;
+            @SecondAction.performed -= instance.OnSecondAction;
+            @SecondAction.canceled -= instance.OnSecondAction;
             @ChangeCommand.started -= instance.OnChangeCommand;
             @ChangeCommand.performed -= instance.OnChangeCommand;
             @ChangeCommand.canceled -= instance.OnChangeCommand;
@@ -352,6 +381,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSwap(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnFirstAction(InputAction.CallbackContext context);
+        void OnSecondAction(InputAction.CallbackContext context);
         void OnChangeCommand(InputAction.CallbackContext context);
     }
 }

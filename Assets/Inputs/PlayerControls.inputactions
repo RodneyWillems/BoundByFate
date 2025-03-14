@@ -42,6 +42,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "SecondAction",
+                    "type": "Button",
+                    "id": "de635800-75c8-4552-a631-274a20abb5fe",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ChangeCommand",
                     "type": "Button",
                     "id": "8dcb90c6-9940-4ae8-8cb1-49b97f214a1f",
@@ -148,6 +157,17 @@
                     "processors": "",
                     "groups": ";Controller",
                     "action": "ChangeCommand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f487790-f95e-4580-ac96-6124d1ad0602",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Controller",
+                    "action": "SecondAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
