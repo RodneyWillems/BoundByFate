@@ -20,12 +20,14 @@ public class OverworldPlayer : MonoBehaviour
     [Header("Characters")]
     [SerializeField] private GameObject m_characterInFront;
     [SerializeField] private GameObject m_characterInBack;
+
     private Rigidbody m_firstRB;
     private Rigidbody m_secondRB;
 
     [Header("Movement")]
     [SerializeField] private int m_frameLag;
     [SerializeField] private int m_speed;
+
     private float m_speedControl;
     private List<Vector3> m_followPositions;
 
@@ -37,11 +39,13 @@ public class OverworldPlayer : MonoBehaviour
     [SerializeField] private GameObject m_icePrefab;
     [SerializeField] private Transform m_elementSpawnPos;
     [SerializeField] private Hammer m_hammer;
+
     private int m_firstCommandCount = 0;
     private bool m_elementIsFire = true;
+    private Coroutine m_commandRoutine;
 
     // Misc
-    private PlayerControls m_controls = new();
+    private PlayerControls m_controls;
     private PlayerInfo m_playerInfo;
 
     #endregion
@@ -49,6 +53,7 @@ public class OverworldPlayer : MonoBehaviour
     #region Setup
     private void OnEnable()
     {
+        m_controls = new();
         m_controls.Overworld.Enable();
     }
 
@@ -164,34 +169,50 @@ public class OverworldPlayer : MonoBehaviour
 
     private void UseFirstCommand(InputAction.CallbackContext context)
     {
-        // Depending on which command is currently selected it does that action
-        if (Physics.Raycast(m_characterInFront.transform.position + Vector3.up * 0.5f, Vector3.down, 0.6f, m_floor))
-        {   switch (m_firstCommand)
-             {
-                case Commands.Jump:
-                    // Play animation
-                    m_firstRB.AddForce(Vector3.up * 4, ForceMode.Impulse);
-                    break;
-                case Commands.Hammer:
-                    // Play animation
-                    m_hammer.gameObject.SetActive(true);
-                    m_hammer.UseHammer();
-                    break;
-                case Commands.Element:
-                    // Play animation
-                    if (m_elementIsFire)
-                    {
-                        Instantiate(m_firePrefab, m_elementSpawnPos.position, Quaternion.identity);
-                    }
-                    else
-                    {
-                        Instantiate(m_icePrefab, m_elementSpawnPos.position, Quaternion.identity);
-                    }
-                    break;
-                default:
-                    break;
+        // By using a Coroutine I emulate coyote time
+        if (m_commandRoutine == null)
+        m_commandRoutine = StartCoroutine(CommandRoutine());
+    }
+
+    private IEnumerator CommandRoutine()
+    {
+        float timer = 0;
+        timer += Time.deltaTime;
+        while (timer < 0.2f) 
+        {
+            // Depending on which command is currently selected it does that action
+            if (Physics.Raycast(m_characterInFront.transform.position + Vector3.up * 0.5f, Vector3.down, 0.6f, m_floor))
+            {
+                switch (m_firstCommand)
+                {
+                    case Commands.Jump:
+                        // Play animation
+                        m_firstRB.AddForce(Vector3.up * 4, ForceMode.Impulse);
+                        break;
+                    case Commands.Hammer:
+                        // Play animation
+                        m_hammer.gameObject.SetActive(true);
+                        m_hammer.UseHammer();
+                        break;
+                    case Commands.Element:
+                        // Play animation
+                        if (m_elementIsFire)
+                        {
+                            Instantiate(m_firePrefab, m_elementSpawnPos.position, Quaternion.identity);
+                        }
+                        else
+                        {
+                            Instantiate(m_icePrefab, m_elementSpawnPos.position, Quaternion.identity);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                timer = 0.2f;
             }
+            yield return null;
         }
+        m_commandRoutine = null;
     }
 
     private void UseSecondCommand(InputAction.CallbackContext context)
