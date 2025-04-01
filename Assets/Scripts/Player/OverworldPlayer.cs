@@ -44,17 +44,30 @@ public class OverworldPlayer : MonoBehaviour
     private bool m_elementIsFire = true;
     private Coroutine m_commandRoutine;
 
+    [Header("Inventory")]
+    [SerializeField] private GameObject m_inventoryScreen;
+    
+    private OverworldInventory m_overworldInventory;
+
     // Misc
     private PlayerControls m_controls;
-    private PlayerInfo m_playerInfo;
 
     #endregion
 
     #region Setup
+
     private void OnEnable()
     {
+        // Setting inputs to listen to functions
         m_controls = new();
         m_controls.Overworld.Enable();
+        m_controls.Overworld.Move.started += StartMoving;
+        m_controls.Overworld.Move.canceled += StopMoving;
+        m_controls.Overworld.Swap.performed += Swap;
+        m_controls.Overworld.Inventory.performed += OpenInventory;
+        m_controls.Overworld.ChangeCommand.performed += ChangeCommand;
+        m_controls.Overworld.FirstAction.performed += UseFirstCommand;
+        m_controls.Overworld.SecondAction.performed += UseSecondCommand;
     }
 
     private void OnDisable()
@@ -64,15 +77,6 @@ public class OverworldPlayer : MonoBehaviour
 
     void Start()
     {
-        // Setting inputs to listen to functions
-        m_controls.Overworld.Move.started += StartMoving;
-        m_controls.Overworld.Move.canceled += StopMoving;
-        m_controls.Overworld.Swap.performed += Swap;
-        m_controls.Overworld.Inventory.performed += OpenInventory;
-        m_controls.Overworld.ChangeCommand.performed += ChangeCommand;
-        m_controls.Overworld.FirstAction.performed += UseFirstCommand;
-        m_controls.Overworld.SecondAction.performed += UseSecondCommand;
-
         // Getting the Rigidbodies for movement
         m_firstRB = m_characterInFront.GetComponent<Rigidbody>();
         m_secondRB = m_characterInBack.GetComponent<Rigidbody>();
@@ -84,6 +88,8 @@ public class OverworldPlayer : MonoBehaviour
         // Setting the speedControl and making a new list
         m_speedControl = m_speed;
         m_followPositions = new();
+
+        m_overworldInventory = m_inventoryScreen.GetComponent<OverworldInventory>();
     }
 
     #endregion
@@ -116,7 +122,7 @@ public class OverworldPlayer : MonoBehaviour
         m_characterInBack.transform.position = oldSecondPosition;
 
         // The command always goes back to jump
-        m_firstCommand = Commands.Jump;
+        m_firstCommand = Commands.Jump; 
         m_firstCommandCount = 0;
 
         // Saving the Rigidbodies
@@ -141,6 +147,8 @@ public class OverworldPlayer : MonoBehaviour
     {
         // Open Inventory
         m_controls.Overworld.Disable();
+        m_inventoryScreen.SetActive(true);
+        m_overworldInventory.Open();
         print("Opening Inventory");
     }
 
@@ -275,6 +283,15 @@ public class OverworldPlayer : MonoBehaviour
     }
 
     #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Start combat
+            print("Combat starting");
+        }
+    }
 
     void Update()
     {
