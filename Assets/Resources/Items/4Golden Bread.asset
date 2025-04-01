@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 826dcf4131872d347b0f7b3d529568e5, type: 3}
-  m_Name: Egg sandwich
+  m_Name: 4Golden Bread
   m_EditorClassIdentifier: 
   healsHP: 1
-  healAmount: 20
-  itemAmount: 0
-  description: Sandwich made of bread and egg. Heals 20HP
-  icon: {fileID: 21300000, guid: ed5b160da0f3a4949b18c6554d4c1f22, type: 3}
+  healAmount: 1000
+  itemAmount: 5
+  description: Bread made out of gold. Heals HP fully
+  icon: {fileID: 21300000, guid: 635528963f704ee409d87e6716122f54, type: 3}

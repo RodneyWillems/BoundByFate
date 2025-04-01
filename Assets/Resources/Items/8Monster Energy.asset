@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 826dcf4131872d347b0f7b3d529568e5, type: 3}
+  m_Name: 8Monster Energy
+  m_EditorClassIdentifier: 
+  healsHP: 0
+  healAmount: 10000
+  itemAmount: 5
+  description: A huge can of Monster energy containing a lot of caffeine. Heals DP
+    fully
+  icon: {fileID: 21300000, guid: 4431a36dfeb6f2649a17d7dc29429bf2, type: 3}

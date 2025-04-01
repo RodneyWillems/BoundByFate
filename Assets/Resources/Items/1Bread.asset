@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 826dcf4131872d347b0f7b3d529568e5, type: 3}
-  m_Name: Sandwich
+  m_Name: 1Bread
   m_EditorClassIdentifier: 
   healsHP: 1
-  healAmount: 30
-  itemAmount: 0
-  description: A sandwich made with bread, meat and lettuce. Heals 30HP
-  icon: {fileID: 21300000, guid: c8cf98019c046a84889dc2261357cde1, type: 3}
+  healAmount: 10
+  itemAmount: 5
+  description: Very nutritious, contains carbohydrates. heals 10HP
+  icon: {fileID: 21300000, guid: 3b2c6a4de9db70e41b0f0d60aae6e8da, type: 3}

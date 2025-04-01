@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 826dcf4131872d347b0f7b3d529568e5, type: 3}
-  m_Name: Golden Bread
+  m_Name: 6Energy
   m_EditorClassIdentifier: 
-  healsHP: 1
-  healAmount: 1000
-  itemAmount: 0
-  description: Bread made out of gold heals fully
-  icon: {fileID: 21300000, guid: 635528963f704ee409d87e6716122f54, type: 3}
+  healsHP: 0
+  healAmount: 20
+  itemAmount: 5
+  description: Energy drink containing caffeine, keeps you up. Heals 20DP
+  icon: {fileID: 21300000, guid: 8216e55b3f0a5cb499b08f9ebf684bcc, type: 3}
