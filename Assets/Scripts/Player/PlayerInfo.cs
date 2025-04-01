@@ -41,14 +41,16 @@ public class PlayerInfo : MonoBehaviour
         {
             hp = 15,
             dp = 13,
-            attack = 5
+            attack = 5,
+            level = 1
         };
 
         m_statsShawn = new()
         {
             hp = 10,
             dp = 13,
-            attack = 7
+            attack = 7,
+            level = 1
         };
     }
 
