@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class ItemHolder : MonoBehaviour, ISelectHandler
 {
-    public Item m_item;
-    public int m_index;
+    public Item Item;
+    public int Index;
 
     private OverworldInventory m_inventory;
 
@@ -20,12 +20,12 @@ public class ItemHolder : MonoBehaviour, ISelectHandler
     {
         // When the button gets instantiated it adds it's own OnClick function
         // It's OnClick is to use the item it's holding
-        GetComponent<Button>().onClick.AddListener(delegate { m_inventory.UseItem(m_item); });
+        GetComponent<Button>().onClick.AddListener(delegate { m_inventory.UseItem(Item); });
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-        m_inventory.UpdateDescription(m_item.description);
+        m_inventory.UpdateDescription(Item.description);
     }
 
 }

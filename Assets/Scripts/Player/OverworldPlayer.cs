@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum Commands
 {
@@ -18,6 +19,7 @@ public class OverworldPlayer : MonoBehaviour
     #region Variables
 
     [Header("Characters")]
+    [SerializeField] private GameObject m_camera;
     [SerializeField] private GameObject m_characterInFront;
     [SerializeField] private GameObject m_characterInBack;
 
@@ -45,8 +47,8 @@ public class OverworldPlayer : MonoBehaviour
     private Coroutine m_commandRoutine;
 
     [Header("Inventory")]
-    [SerializeField] private GameObject m_inventoryScreen;
-    
+    [SerializeField] private GameObject m_canvas;
+
     private OverworldInventory m_overworldInventory;
 
     // Misc
@@ -89,7 +91,8 @@ public class OverworldPlayer : MonoBehaviour
         m_speedControl = m_speed;
         m_followPositions = new();
 
-        m_overworldInventory = m_inventoryScreen.GetComponent<OverworldInventory>();
+        m_overworldInventory = FindObjectOfType<OverworldInventory>();
+
     }
 
     #endregion
@@ -141,21 +144,24 @@ public class OverworldPlayer : MonoBehaviour
         m_hammer.transform.parent = m_characterInFront.transform;
 
         UpdateCommand();
+
+        m_characterInFront.AddComponent<CollisionDetector>();
+        Destroy(m_characterInBack.GetComponent<CollisionDetector>());
     }
 
     private void OpenInventory(InputAction.CallbackContext context)
     {
         // Open Inventory
+        Time.timeScale = 0;
         m_controls.Overworld.Disable();
-        m_inventoryScreen.SetActive(true);
         m_overworldInventory.Open();
-        print("Opening Inventory");
     }
 
     public void CloseInventory()
     {
         // When the inventory closes the player gets control back again and the game continues
         m_controls.Overworld.Enable();
+        Time.timeScale = 1;
     }
 
     private void ChangeCommand(InputAction.CallbackContext context)
@@ -240,14 +246,17 @@ public class OverworldPlayer : MonoBehaviour
         // But only saving the x and z position so when the character in front jumps the character in the back doesn't jump with them
         if (moveInput.x != 0 || moveInput.y != 0)
         {
-            m_firstRB.velocity += moveDirection;
-            m_followPositions.Add(new(m_characterInFront.transform.position.x, 0, m_characterInFront.transform.position.z));
+            m_characterInFront.transform.LookAt(moveDirection + m_characterInFront.transform.position);
+            if (!Physics.Raycast(m_characterInBack.transform.position, m_characterInBack.transform.forward, 0.3f, m_floor) && moveDirection != m_characterInBack.transform.forward)
+            {
+                m_firstRB.velocity += moveDirection;
+                m_followPositions.Add(new(m_characterInFront.transform.position.x, 0, m_characterInFront.transform.position.z));
+            }
         }
         else
         {
             m_firstRB.velocity = new(0, m_firstRB.velocity.y, 0);
         }
-        m_characterInFront.transform.LookAt(moveDirection + m_characterInFront.transform.position);
 
         SpeedControl();
         Follow();
@@ -284,13 +293,28 @@ public class OverworldPlayer : MonoBehaviour
 
     #endregion
 
-    private void OnCollisionEnter(Collision collision)
+    public void DetectCollision(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             // Start combat
+            transform.position -= m_characterInFront.transform.forward;
+            StartCombat();
             print("Combat starting");
         }
+    }
+
+    private void StartCombat()
+    {
+        m_canvas.SetActive(false);
+        m_controls.Disable();
+        CombatManager.Instance.StartCombat();
+    }
+
+    public void EndCombat()
+    {
+        m_controls.Enable();
+        m_canvas.SetActive(true);
     }
 
     void Update()
@@ -305,6 +329,7 @@ public class OverworldPlayer : MonoBehaviour
             m_speedControl = m_speed;
         }
 
+        m_camera.transform.position = m_characterInFront.transform.position + (Vector3.up * 2.93f) + (Vector3.forward * -5);
     }
 
     private void FixedUpdate()

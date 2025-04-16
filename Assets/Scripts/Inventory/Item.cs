@@ -13,7 +13,7 @@ public class Item : ScriptableObject
 
     public void UseItem()
     {
-        if (healsHP && PlayerInfo.Instance.HPHeal(healAmount) || !healsHP && PlayerInfo.Instance.BPHeal(healAmount))
+        if (healsHP && PlayerInfo.Instance.HPHeal(healAmount) || !healsHP && PlayerInfo.Instance.DPHeal(healAmount))
         {
             itemAmount--;
             Debug.Log("Successfully used item!!!");

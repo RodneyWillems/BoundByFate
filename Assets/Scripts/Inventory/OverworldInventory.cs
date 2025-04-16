@@ -10,10 +10,11 @@ public class OverworldInventory : MonoBehaviour
 {
     #region Variables
     [Header("Menu navigation")]
-    [SerializeField] private Button m_firstSelected;
+    [SerializeField] private GameObject m_inventoryScreen;
     [SerializeField] private GameObject m_itemsScreen;
     [SerializeField] private GameObject m_statsScreen;
     [SerializeField] private GameObject m_lastUsedMenu;
+    [SerializeField] private Button m_firstSelected;
     [SerializeField] private Button m_statsButton;
 
     [Header("Items")]
@@ -39,7 +40,6 @@ public class OverworldInventory : MonoBehaviour
     private void OnEnable()
     {
         m_controls = new();
-        m_controls.Inventory.Enable();
         m_controls.Inventory.Back.performed += Back;
         m_controls.Inventory.Close.performed += Close;
     }
@@ -55,7 +55,7 @@ public class OverworldInventory : MonoBehaviour
 
         m_player = FindObjectOfType<OverworldPlayer>();
 
-        gameObject.SetActive(false);
+        m_inventoryScreen.SetActive(false);
     }
 
     #endregion
@@ -64,8 +64,10 @@ public class OverworldInventory : MonoBehaviour
 
     public void Open()
     {
+        m_inventoryScreen.SetActive(true);
         ReactivateButtons();
         m_firstSelected.Select();
+        m_controls.Inventory.Enable();
     }
 
     private void Back(InputAction.CallbackContext context)
@@ -105,11 +107,12 @@ public class OverworldInventory : MonoBehaviour
 
     private void CloseInventory()
     {
+        m_controls.Inventory.Disable();
         CloseItems();
         m_player.CloseInventory();
         m_itemsScreen.SetActive(false);
         m_statsScreen.SetActive(false);
-        gameObject.SetActive(false);
+        m_inventoryScreen.SetActive(false);
     }
 
     #endregion
@@ -156,7 +159,7 @@ public class OverworldInventory : MonoBehaviour
 
             m_itemSlotList[i].GetComponentInChildren<TextMeshProUGUI>().text = m_usableItems[i].itemAmount.ToString();
             m_itemSlotList[i].transform.GetChild(0).GetComponent<Image>().sprite = m_usableItems[i].icon;
-            m_itemSlotList[i].GetComponent<ItemHolder>().m_item = m_usableItems[i];
+            m_itemSlotList[i].GetComponent<ItemHolder>().Item = m_usableItems[i];
         }
 
         m_itemSlotList[0].GetComponent<Button>().Select();

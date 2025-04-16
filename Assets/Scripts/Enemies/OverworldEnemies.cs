@@ -80,14 +80,21 @@ public class OverworldEnemies : MonoBehaviour
 
     void Update()
     {
-        switch(m_state)
+        if (!CombatManager.Instance.InCombat)
         {
-            case enemyState.idle:
-                HandleIdle();
-                break;
-            case enemyState.walk:
-                HandleWalking();
-                break;
+            switch (m_state)
+            {
+                case enemyState.idle:
+                    HandleIdle();
+                    break;
+                case enemyState.walk:
+                    HandleWalking();
+                    break;
+            }
+        }
+        else
+        {
+            m_state = enemyState.idle;
         }
     }
 

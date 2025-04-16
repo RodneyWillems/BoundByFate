@@ -80,7 +80,7 @@ public class PlayerInfo : MonoBehaviour
         return false;
     }
 
-    public bool BPHeal(int dp)
+    public bool DPHeal(int dp)
     {
         // Heals both DP when either is possible
         if (m_dpSol < m_statsSol.dp || m_dpShawn < m_statsShawn.dp)

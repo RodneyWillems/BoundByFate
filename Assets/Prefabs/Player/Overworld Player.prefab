@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7182344425024934856}
   - component: {fileID: 1931803081671939634}
   m_Layer: 3
-  m_Name: Player
+  m_Name: Overworld Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556db0b54a1bdb44d83aa684efad8154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_camera: {fileID: 0}
   m_characterInFront: {fileID: 5259891491781365894}
   m_characterInBack: {fileID: 7423412052026710061}
   m_frameLag: 10
@@ -56,9 +57,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   m_firstCommand: 0
+  m_commandText: {fileID: 0}
   m_firePrefab: {fileID: 4307138724176979007, guid: c1c65adaa857edc48a061c23906f24f2, type: 3}
   m_icePrefab: {fileID: 6952145444338523508, guid: 5d5ab1f2850a3c94f8c5f068b9cadac5, type: 3}
   m_elementSpawnPos: {fileID: 1382869990664395452}
+  m_hammer: {fileID: 0}
 --- !u!1 &7973603524887539751
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,8 +119,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9022142576821553479}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.26630354, y: -0, z: -0, w: 0.96388924}
-  m_LocalPosition: {x: 0, y: 2.93, z: -5}
+  m_LocalRotation: {x: 0.26630354, y: -0, z: -0, w: 0.9638893}
+  m_LocalPosition: {x: -0, y: 2.93, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
